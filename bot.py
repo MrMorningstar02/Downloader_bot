@@ -36,7 +36,7 @@ def run_health_check():
 
 API_ID = 30598720
 API_HASH = "283fbc7ac0723e792f039b63c0952ede"
-BOT_TOKEN = "8645304686:AAEJb7BrhaxVOjEWYUnL6Td_cJotqt9XARw"
+BOT_TOKEN = "8645304686:AAH9wNu4RtRPI_LnFvkj4uj74b7aG9BDjgk"
 
 client = TelegramClient(
     'video_downloader_bot', # Changed name to force a fresh session
@@ -315,6 +315,17 @@ async def handle_quality(event):
 
 if __name__ == "__main__":
     check_dependencies()
+    
+    # Render persistence: Create cookies.txt from environment variable if exists
+    cookies_content = os.environ.get("COOKIES_CONTENT")
+    if cookies_content:
+        try:
+            with open("cookies.txt", "w") as f:
+                f.write(cookies_content)
+            logger.info("Created cookies.txt from environment variable.")
+        except Exception as e:
+            logger.error(f"Failed to create cookies.txt: {e}")
+
     # Start Render health check server
     threading.Thread(target=run_health_check, daemon=True).start()
     
