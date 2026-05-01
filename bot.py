@@ -25,17 +25,21 @@ class HealthCheckHandler(http.server.BaseHTTPRequestHandler):
         return # Silent logs for health checks
 
 def run_health_check():
-    port = int(os.environ.get("PORT", 8080))
-    server = http.server.HTTPServer(('0.0.0.0', port), HealthCheckHandler)
-    logger.info(f"Health check server started on port {port}")
-    server.serve_forever()
+    try:
+        port = int(os.environ.get("PORT", 8080))
+        server = http.server.HTTPServer(('0.0.0.0', port), HealthCheckHandler)
+        logger.info(f"Health check server started on port {port}")
+        server.serve_forever()
+    except Exception as e:
+        logger.error(f"Health check server failed to start: {e}")
+        logger.info("The bot will continue to run, but Render health checks may fail if this happens on the server.")
 
 API_ID = 30598720
 API_HASH = "283fbc7ac0723e792f039b63c0952ede"
-BOT_TOKEN = "8645304686:AAGofH53HGPjFYzrsyoodREmf66BV7HmZmM"
+BOT_TOKEN = "8645304686:AAH13wrEXNsAbZCJijpMwqHwtMozqvcCI7M"
 
 client = TelegramClient(
-    'video_bot', 
+    'video_downloader_bot', # Changed name to force a fresh session
     API_ID, 
     API_HASH,
     connection_retries=10,
@@ -44,6 +48,12 @@ client = TelegramClient(
 )
 
 url_store = {}
+
+async def main():
+    await client.start(bot_token=BOT_TOKEN)
+    me = await client.get_me()
+    print(f"Bot is online! Logged in as: {me.first_name} (@{me.username})")
+    await client.run_until_disconnected()
 
 def check_dependencies():
     if not shutil.which('ffmpeg'):
@@ -301,6 +311,5 @@ if __name__ == "__main__":
     # Start Render health check server
     threading.Thread(target=run_health_check, daemon=True).start()
     
-    print("Bot started - full speed mode!")
-    client.start(bot_token=BOT_TOKEN)
-    client.run_until_disconnected()
+    print("Initializing bot...")
+    client.loop.run_until_complete(main())
