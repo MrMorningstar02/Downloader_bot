@@ -1,0 +1,23 @@
+<svg width="500" height="500" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="500" height="500" fill="#0F0F0F"/>
+  
+  <!-- Outer Glow/Ring -->
+  <circle cx="250" cy="250" r="220" fill="none" stroke="#FF0000" stroke-width="4" opacity="0.3"/>
+  <circle cx="250" cy="250" r="200" fill="none" stroke="#FF0000" stroke-width="15"/>
+  
+  <!-- "18+" Text -->
+  <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" 
+        font-family="Segoe UI, Arial, sans-serif" font-size="120" font-weight="900" fill="#FFFFFF">
+    18+
+  </text>
+  
+  <!-- "VIDEO DOWNLOADER" Text -->
+  <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" 
+        font-family="Segoe UI, Arial, sans-serif" font-size="35" font-weight="bold" fill="#FF0000" letter-spacing="2">
+    VIDEO DOWNLOADER
+  </text>
+  
+  <!-- Bottom Accent -->
+  <path d="M150 380 L350 380" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
+</svg>

@@ -36,7 +36,7 @@ def run_health_check():
 
 API_ID = 30598720
 API_HASH = "283fbc7ac0723e792f039b63c0952ede"
-BOT_TOKEN = "8645304686:AAH13wrEXNsAbZCJijpMwqHwtMozqvcCI7M"
+BOT_TOKEN = "8645304686:AAGqPZV2k9rtPTNJy1bLA8nQ-4ToeN03m8E"
 
 client = TelegramClient(
     'video_downloader_bot', # Changed name to force a fresh session
@@ -215,7 +215,7 @@ async def handle_quality(event):
                 'geo_bypass': True,
                 'buffersize': 131072,
                 'extractor_args': {
-                    'youtube': {'player_client': ['android', 'web']},
+                    'youtube': {'player_client': ['ios', 'android', 'web']},
                     'general': {'legacy_ssl': [True]}
                 },
                 'progress_hooks': [dl_progress],
@@ -272,10 +272,17 @@ async def handle_quality(event):
         logger.error(f"Error: {error_text}")
         
         display_error = "Error: Internal download error."
-        if "empty media response" in error_text or "Instagram" in error_text:
-            display_error = "Error: Instagram/Site blocked the request. Please upload 'cookies.txt' to the bot folder to authenticate."
+        if "Sign in to confirm you're not a bot" in error_text:
+            display_error = "Error: YouTube blocked this server's IP. Please upload 'cookies.txt' to bypass this."
+        elif "empty media response" in error_text or "Instagram" in error_text:
+            display_error = "Error: Instagram/Site blocked the request. Please upload 'cookies.txt' to authenticate."
         elif "ffmpeg" in error_text.lower():
             display_error = "Error: Server missing FFmpeg. Please install it to allow video merging."
+        elif "403" in error_text:
+            display_error = "Error: Forbidden (403). The site might be blocking the server or requires cookies."
+        else:
+            # Show a snippet of the actual error to help debugging
+            display_error = f"Error: {error_text[:100]}..."
         
         try:
             await status_msg.edit(display_error)
