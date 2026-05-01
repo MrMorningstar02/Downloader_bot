@@ -36,7 +36,7 @@ def run_health_check():
 
 API_ID = 30598720
 API_HASH = "283fbc7ac0723e792f039b63c0952ede"
-BOT_TOKEN = "8645304686:AAGqPZV2k9rtPTNJy1bLA8nQ-4ToeN03m8E"
+BOT_TOKEN = "8645304686:AAEJb7BrhaxVOjEWYUnL6Td_cJotqt9XARw"
 
 client = TelegramClient(
     'video_downloader_bot', # Changed name to force a fresh session
